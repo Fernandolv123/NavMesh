@@ -27,4 +27,10 @@ public class MoveTo : MonoBehaviour
             }
         }
     }
+
+    public void MoveCommand(Vector3 position){
+                        if (movingGO != null) Destroy(movingGO);
+                movingGO =Instantiate(OMWprefab,position,Quaternion.identity);
+                agent.destination = position;
+    }
 }
