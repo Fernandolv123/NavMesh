@@ -18,9 +18,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         Instance = this;
-        macrosLists.Add(new List<UnitRTS>());
-        macrosLists.Add(new List<UnitRTS>());
-        macrosLists.Add(new List<UnitRTS>());
+        for(int i=0;i<=9;i++)macrosLists.Add(new List<UnitRTS>());
     }
 
     // Update is called once per frame
@@ -99,23 +97,28 @@ public class GameManager : MonoBehaviour
     }
 
     void MacrosController(){
+        //Debug.Log("Entra "+macrosLists.Count + " - " + (0 <= macrosLists.Count));
         // for con iteraciones por i de las listas?
-        if(Input.GetKeyDown(KeyCode.Alpha1)){
-            Debug.Log("Entra con :" + macrosLists[1].Count + "elementos");
-            if(Input.GetKey(KeyCode.LeftShift)){
-                Debug.Log(macrosLists[1].Count);
-                OverrideList(macrosLists[1],selectedUnits);
-                Debug.Log(macrosLists[1].Count);
+        for(int i=0;i<=macrosLists.Count;i++){
+            KeyCode tempKeyCode = (KeyCode)i+48;
+            Debug.Log(tempKeyCode);
+        if(Input.GetKeyDown(tempKeyCode)){
+            Debug.Log("Entra con :" + macrosLists[i].Count + "elementos");
+            if(Input.GetKey(KeyCode.LeftControl)){
+                Debug.Log(macrosLists[i].Count);
+                OverrideList(macrosLists[i],selectedUnits);
+                Debug.Log(macrosLists[i].Count);
                 return;
             }
             
-            if(macrosLists[1].Count == 0) return;
+            if(macrosLists[i].Count == 0) return;
             ClearList();
-            foreach (UnitRTS unit in macrosLists[1]){
+            foreach (UnitRTS unit in macrosLists[i]){
                 SelectUnit(unit);
             }
         }
-        if(Input.GetKeyDown(KeyCode.Alpha2)){
+    }
+        /*if(Input.GetKeyDown(KeyCode.Alpha2)){
             Debug.Log("Entra con :" + macrosLists[2].Count + "elementos");
             if(Input.GetKey(KeyCode.LeftShift)){
                 Debug.Log(macrosLists[2].Count);
@@ -129,7 +132,7 @@ public class GameManager : MonoBehaviour
             foreach (UnitRTS unit in macrosLists[2]){
                 SelectUnit(unit);
             }
-        }
+        }*/
     }
     void OverrideList(List<UnitRTS> listToOverride, List<UnitRTS> newList){
         listToOverride.Clear();
