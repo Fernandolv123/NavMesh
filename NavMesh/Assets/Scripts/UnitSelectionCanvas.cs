@@ -17,6 +17,7 @@ public class UnitSelectionCanvas : MonoBehaviour
  
     private void Start()
     {
+        conejo();
         myCam = Camera.main;
         startPosition = Vector2.zero;
         endPosition = Vector2.zero;
@@ -46,7 +47,11 @@ public class UnitSelectionCanvas : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             //Debug.Log(CheckDiference(startPosition,endPosition));
+            //startPosition = new Vector2(startPosition.x-125,startPosition.y-125);
+            //endPosition = new Vector2(endPosition.x+125,endPosition.y+125);
+            //DrawSelection();
             if(CheckDiference(startPosition,endPosition)){
+                
                 startPosition = Vector2.zero;
                 endPosition = Vector2.zero;
                 DrawVisual();
@@ -131,5 +136,40 @@ public class UnitSelectionCanvas : MonoBehaviour
         //Debug.Log(Mathf.Abs(b-a) < difference);
         return Mathf.Abs(b-a) < difference;
 
+    }
+    void conejo(){
+
+int l = 500; //comiezo
+int r = 1000; //limite
+int suma=0;
+bool breakPoint = false;
+int output1=-1;
+int output2=-1;
+bool isSquare=false;
+for(;l<=r;l++){
+    Debug.Log("iteracion: " +l);
+    for(int i=1;i+l<=r;i++){
+        Debug.Log("segunda iteracion: "+i);
+        suma = l+(l + i);
+            for(int j =1;j<=r;j++){
+                if(j*j == suma){
+                    Debug.Log("j: "+j +", suma:" +suma);
+                    isSquare=true;
+                    break;
+                }
+            }
+        if (isSquare && (suma % 1 == 0)){
+            output1=l;
+            output2=l+i;
+            breakPoint=true;
+            break;
+        }
+
+    }
+    if (breakPoint){
+        break;
+    }
+}
+Debug.Log(("salida: "+output1 + output2).ToString());
     }
 }

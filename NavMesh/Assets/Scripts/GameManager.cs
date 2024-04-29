@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
         MacrosController();
         if (Input.GetMouseButtonDown(0)){
             if(Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)){
-                Debug.Log("Aqui si que entra");
+                //Debug.Log("Aqui si que entra");
                 dontClear=true;
             }
             if(!dontClear){
@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 100))
             {
                 if(hit.collider.gameObject.GetComponent<UnitRTS>() != null){
-                Debug.Log(hit.collider.gameObject.name+" - "+hit.collider.gameObject.GetComponent<UnitRTS>());
+                //Debug.Log(hit.collider.gameObject.name+" - "+hit.collider.gameObject.GetComponent<UnitRTS>());
                 SelectUnit(hit.collider.gameObject.GetComponent<UnitRTS>());
                 //selectedUnits.Add(hit.collider.gameObject.GetComponent<UnitRTS>());
                 startPosition= hit.point;
@@ -101,9 +101,9 @@ public class GameManager : MonoBehaviour
         // for con iteraciones por i de las listas?
         for(int i=0;i<=macrosLists.Count;i++){
             KeyCode tempKeyCode = (KeyCode)i+48;
-            Debug.Log(tempKeyCode);
+            //Debug.Log(tempKeyCode);
         if(Input.GetKeyDown(tempKeyCode)){
-            Debug.Log("Entra con :" + macrosLists[i].Count + "elementos");
+            //Debug.Log("Entra con :" + macrosLists[i].Count + "elementos");
             if(Input.GetKey(KeyCode.LeftControl)){
                 Debug.Log(macrosLists[i].Count);
                 OverrideList(macrosLists[i],selectedUnits);
