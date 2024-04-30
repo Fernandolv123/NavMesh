@@ -394,6 +394,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectedUnit: {fileID: 720456231}
+  moveActionFinished: 0
   queuePoint: {x: 0, y: 0, z: 0}
   unitPrefab:
   - {fileID: 3949043521304666157, guid: 1a568f78c3fc30541888d697a5e69d04, type: 3}
@@ -680,6 +681,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2683941125024525019, guid: 1a568f78c3fc30541888d697a5e69d04, type: 3}
+      propertyPath: m_AutoRepath
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3949043521304666157, guid: 1a568f78c3fc30541888d697a5e69d04, type: 3}
       propertyPath: m_Name
       value: Player (4)
@@ -925,6 +930,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2683941125024525019, guid: 1a568f78c3fc30541888d697a5e69d04, type: 3}
+      propertyPath: m_AutoRepath
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2683941125024525019, guid: 1a568f78c3fc30541888d697a5e69d04, type: 3}
+      propertyPath: m_AutoTraverseOffMeshLink
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3949043521304666157, guid: 1a568f78c3fc30541888d697a5e69d04, type: 3}
       propertyPath: m_Name
       value: Player (2)
