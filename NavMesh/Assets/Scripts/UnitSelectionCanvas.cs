@@ -17,7 +17,7 @@ public class UnitSelectionCanvas : MonoBehaviour
  
     private void Start()
     {
-        conejo();
+        //conejo();
         myCam = Camera.main;
         startPosition = Vector2.zero;
         endPosition = Vector2.zero;
@@ -57,7 +57,7 @@ public class UnitSelectionCanvas : MonoBehaviour
                 DrawVisual();
                 return;
             }
-            Debug.Log("ENTRA");
+            //Debug.Log("ENTRA");
             startPosition = Vector2.zero;
             endPosition = Vector2.zero;
             DrawVisual();
@@ -116,6 +116,9 @@ public class UnitSelectionCanvas : MonoBehaviour
     {
         
         GameManager.Instance.ClearList();
+        //Debug.Log("Antes: "+selectionBox);
+        //UnnamedMethod();
+        //Debug.Log("Despues: "+selectionBox);
         foreach (var unit in GameManager.Instance.allUnits)
         {
             if (selectionBox.Contains(myCam.WorldToScreenPoint(unit.transform.position)))
@@ -136,6 +139,30 @@ public class UnitSelectionCanvas : MonoBehaviour
         //Debug.Log(Mathf.Abs(b-a) < difference);
         return Mathf.Abs(b-a) < difference;
 
+    }
+    void UnnamedMethod(){
+        if (Input.mousePosition.x < startPosition.x)
+        {
+            selectionBox.xMin = Input.mousePosition.x;
+            selectionBox.xMax = startPosition.x;
+        }
+        else
+        {
+            selectionBox.xMin = startPosition.x;
+            selectionBox.xMax = Input.mousePosition.x;
+        }
+ 
+ 
+        if (Input.mousePosition.y < startPosition.y)
+        {
+            selectionBox.yMin = Input.mousePosition.y;
+            selectionBox.yMax = startPosition.y;
+        }
+        else
+        {
+            selectionBox.yMin = startPosition.y;
+            selectionBox.yMax = Input.mousePosition.y;
+        }
     }
     void conejo(){
 
