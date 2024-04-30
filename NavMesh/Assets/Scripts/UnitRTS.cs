@@ -10,15 +10,13 @@ public class UnitRTS : MonoBehaviour
 
     private List<Vector3> quedActions = new List<Vector3>();
     private bool queuedActive=false;
+    private List<ActionRTS> queuedActions = new List<ActionRTS>();
 
-
-    private Vector3 previousPosition;
-    private bool navMeshStopped=false;
+    public bool moveActionFinished=false;
 
     protected virtual void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        previousPosition=transform.position;
         Debug.Log("Soy " + gameObject.name);
     }
 
@@ -29,12 +27,14 @@ public class UnitRTS : MonoBehaviour
         //IsStopped solo indica si el agente puede moverse o no
         //agent.isStopped=true;
         //Debug.Log(agent.isStopped);
-        Debug.Log(navMeshStopped);
-        if(previousPosition == transform.position){
-            navMeshStopped = true;
-        } else {
-            navMeshStopped = false;
-            previousPosition = transform.position;
+        //queuedActions[MoveAction()];
+        if(quedActions.Count >= 1){
+            Debug.Log("DIFERENCIA: "+Vector3.Distance(queuedActions[queuedActions.Count-1].GetPosition(),transform.position));
+            if(Vector3.Distance(queuedActions[queuedActions.Count-1].GetPosition(),transform.position) <= 4.2F){
+                // Debug.Log("ENTRA");
+                moveActionFinished=true;
+                agent.ResetPath();
+            }
         }
         
     }
@@ -44,13 +44,19 @@ public class UnitRTS : MonoBehaviour
     public virtual void MoveCommand(Vector3 position)
     {
         if(Input.GetKey(KeyCode.LeftShift)){
+            queuedActions.Add(new ActionRTS(Order.Move,position));
             quedActions.Add(position);
             //StopCoroutine("StartPatrol");
-            if(!queuedActive)StartCoroutine("StartPatrol");
+            Debug.Log("quedActive " + queuedActive);
+            if(!queuedActive)StartCoroutine("StartPatrolActionsRTS");
             return;
         }
+        moveActionFinished=false;
+        queuedActions.Clear();
+        queuedActions.Add(new ActionRTS(Order.Move,position));
         quedActions.Clear();
         quedActions.Add(position);
+        // if(!queuedActive)StartCoroutine("StartPatrolActionsRTS");
         agent.autoBraking=true;
         agent.destination = position;
     }
@@ -62,10 +68,17 @@ public class UnitRTS : MonoBehaviour
         queuedActive = true;
         for(int i=0; i<=quedActions.Count-1;i++){
             Debug.Log(i + "<"+quedActions.Count);
-            agent.destination = quedActions[i];
+            //agent.destination = quedActions[i];
+            //agent.ResetPath();
+            
+            agent.SetDestination(quedActions[i]);
+            yield return new WaitForSeconds(0.01f);
+            //agent.SetPath();
             //agent.nextPosition = quedActions[i++];
             while(agent.remainingDistance >= 1){
-                yield return new WaitUntil(() =>navMeshStopped);
+                Debug.Log(agent.remainingDistance + "<=" + 1);
+                //yield return new WaitUntil(() =>navMeshStopped);
+                yield return null;
                 Debug.Log("SALE");
             }
             //quedActions.RemoveAt(i);
@@ -73,5 +86,41 @@ public class UnitRTS : MonoBehaviour
         quedActions.Clear();
         queuedActive=false;
         
+    }
+        public IEnumerator StartPatrolActionsRTS(){
+        moveActionFinished=false;
+        queuedActive = true;
+        for(int i=0; i<=queuedActions.Count-1;i++){
+            Debug.Log(i + "<"+queuedActions.Count);
+            //agent.destination = quedActions[i];
+            //agent.ResetPath();
+            
+            queuedActions[i].ExecuteAction(agent);
+            yield return new WaitForSeconds(0.01f);
+            //agent.SetPath();
+            //agent.nextPosition = quedActions[i++];
+            while(agent.remainingDistance >= 1){
+                Debug.Log(agent.remainingDistance + "<=" + 1);
+                //yield return new WaitUntil(() =>navMeshStopped);
+                yield return null;
+                Debug.Log("SALE");
+            }
+            //quedActions.RemoveAt(i);
+        }
+        agent.ResetPath();
+        moveActionFinished=true;
+        queuedActions.Clear();
+        queuedActive=false;
+        
+    }
+    void OnCollisionEnter(Collision other) {
+        if(GameManager.Instance.UnitInControl() < 2) return;
+        if(gameObject.GetComponent<UnitRTS>().agent == null) return;
+        if(other.gameObject.GetComponent<UnitRTS>() != null){
+            Debug.Log("Entra");
+            if(agent?.remainingDistance <=3)agent.ResetPath();
+
+            if(other.gameObject.GetComponent<UnitRTS>().moveActionFinished)agent.ResetPath();
+        }
     }
 }

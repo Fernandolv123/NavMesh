@@ -140,4 +140,7 @@ public class GameManager : MonoBehaviour
             listToOverride.Add(unit);
         }
     }
+    public int UnitInControl(){
+        return selectedUnits.Count;
+    }
 }
