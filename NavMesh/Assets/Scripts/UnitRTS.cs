@@ -13,11 +13,19 @@ public class UnitRTS : MonoBehaviour
     private List<ActionRTS> queuedActions = new List<ActionRTS>();
 
     public bool moveActionFinished=false;
+    public AudioClip audioTrain;
+    private AudioSource audio;
 
+    void Awake(){
+        audio = GetComponent<AudioSource>();
+        agent = GetComponent<NavMeshAgent>();
+    }
     protected virtual void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
         Debug.Log("Soy " + gameObject.name);
+    }
+    public void TrainCompleted(){
+        if(audioTrain!= null)audio.PlayOneShot(audioTrain);
     }
 
 

@@ -395,6 +395,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectedUnit: {fileID: 720456231}
   moveActionFinished: 0
+  audioTrain: {fileID: 0}
   queuePoint: {x: 0, y: 0, z: 0}
   unitPrefab:
   - {fileID: 3949043521304666157, guid: 1a568f78c3fc30541888d697a5e69d04, type: 3}

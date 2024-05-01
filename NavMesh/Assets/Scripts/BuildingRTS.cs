@@ -60,5 +60,6 @@ public class BuildingRTS : UnitRTS
 
     public void MoveUnit(){
         unitTrained.MoveCommand(queuePoint);
+        unitTrained.TrainCompleted();
     }
 }
