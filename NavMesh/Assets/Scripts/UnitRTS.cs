@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,6 +16,7 @@ public class UnitRTS : MonoBehaviour
     public bool moveActionFinished=false;
     public AudioClip audioTrain;
     private AudioSource audio;
+    private bool sendClearList;
 
     void Awake(){
         audio = GetComponent<AudioSource>();
@@ -32,17 +34,25 @@ public class UnitRTS : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // if(sendClearList) queuedActions.Clear();
+        // sendClearList=false;
         //IsStopped solo indica si el agente puede moverse o no
         //agent.isStopped=true;
         //Debug.Log(agent.isStopped);
         //queuedActions[MoveAction()];
-        if(quedActions.Count >= 1){
-            Debug.Log("DIFERENCIA: "+Vector3.Distance(queuedActions[queuedActions.Count-1].GetPosition(),transform.position));
+        Debug.Log("Antes "+queuedActions.Count);
+        try{
+            if(quedActions.Count >= 1){
+            Debug.Log("Despues "+queuedActions.Count);
+            // Debug.Log(queuedActions[queuedActions.Count-1].GetPosition());
+            // Debug.Log("DIFERENCIA: "+Vector3.Distance(queuedActions[queuedActions.Count-1].GetPosition(),transform.position));
             if(Vector3.Distance(queuedActions[queuedActions.Count-1].GetPosition(),transform.position) <= 4.2F){
                 // Debug.Log("ENTRA");
                 moveActionFinished=true;
                 agent.ResetPath();
             }
+        }
+        }catch (ArgumentOutOfRangeException e) {
         }
         
     }
@@ -65,7 +75,6 @@ public class UnitRTS : MonoBehaviour
         quedActions.Clear();
         quedActions.Add(position);
         // if(!queuedActive)StartCoroutine("StartPatrolActionsRTS");
-        agent.autoBraking=true;
         agent.destination = position;
     }
     public void CanMove(bool status){
@@ -84,7 +93,7 @@ public class UnitRTS : MonoBehaviour
             //agent.SetPath();
             //agent.nextPosition = quedActions[i++];
             while(agent.remainingDistance >= 1){
-                Debug.Log(agent.remainingDistance + "<=" + 1);
+                //Debug.Log(agent.remainingDistance + "<=" + 1);
                 //yield return new WaitUntil(() =>navMeshStopped);
                 yield return null;
                 Debug.Log("SALE");
@@ -108,8 +117,9 @@ public class UnitRTS : MonoBehaviour
             //agent.SetPath();
             //agent.nextPosition = quedActions[i++];
             while(agent.remainingDistance >= 1){
-                Debug.Log(agent.remainingDistance + "<=" + 1);
+                //Debug.Log(agent.remainingDistance + "<=" + 1);
                 //yield return new WaitUntil(() =>navMeshStopped);
+                //yield return new WaitForEndOfFrame();
                 yield return null;
                 Debug.Log("SALE");
             }
@@ -117,6 +127,7 @@ public class UnitRTS : MonoBehaviour
         }
         agent.ResetPath();
         moveActionFinished=true;
+        //sendClearList=true;
         queuedActions.Clear();
         queuedActive=false;
         

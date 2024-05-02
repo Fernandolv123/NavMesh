@@ -29,7 +29,7 @@ public class CameraManager : MonoBehaviour
         if (Input.mousePosition.y < edgeSize){
             cameraFollowPosition.z += moveAmount * Time.deltaTime;
         }
-        cameraFollowPosition = new Vector3(Mathf.Clamp(cameraFollowPosition.x,-7,127),cameraFollowPosition.y,Mathf.Clamp(cameraFollowPosition.z,-23,23));
+        cameraFollowPosition = new Vector3(Mathf.Clamp(cameraFollowPosition.x,-7,167),cameraFollowPosition.y,Mathf.Clamp(cameraFollowPosition.z,-23,23));
         transform.position = cameraFollowPosition;
         //Debug.Log(cameraFollowPosition);
     }

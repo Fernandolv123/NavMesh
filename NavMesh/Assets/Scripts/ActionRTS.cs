@@ -28,6 +28,7 @@ class ActionRTS
         }
     }
     public Vector3 GetPosition(){
+        Debug.Log("llega a entrar");
         return positionToMove;
     }
 }
